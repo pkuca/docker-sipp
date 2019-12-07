@@ -1,25 +1,7 @@
-FROM ubuntu:latest
-ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update
-RUN apt-get install -y build-essential
+FROM alpine:3
 
-ADD https://github.com/SIPp/sipp/releases/download/v3.5.1/sipp-3.5.1.tar.gz /
-RUN tar -xzf /sipp-3.5.1.tar.gz
-
-RUN apt-get install -y libssl-dev
-RUN apt-get install -y libpcap-dev
-RUN apt-get install -y libsctp-dev
-RUN apt-get install -y libncurses5-dev
-
-WORKDIR /sipp-3.5.1
-RUN ./configure --with-pcap --with-sctp --with-openssl --with-rtpstream
-RUN make install
-
-WORKDIR /
-RUN rm -rf sipp-3.5.1*
+RUN apk add --no-cache sipp
 
 WORKDIR /sipp
-
-EXPOSE 5060
 
 ENTRYPOINT ["sipp"]
