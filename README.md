@@ -1,33 +1,28 @@
-# Docker container for SIPp
-
+# pkuca/sipp
 - Docker container for running [SIPp](http://sipp.sourceforge.net/index.html)
 - Installs build-time latest version available in base image `alpine:3`
-- [Github Repo](https://github.com/pkuca/docker-sipp)
+- [Github](https://github.com/pkuca/docker-sipp)
 - [Docker Hub](https://hub.docker.com/r/pkuca/sipp/)
 
-## Getting Started
-
-Pull the latest image using:
-```
-docker pull pkuca/sipp
-docker run -it pkuca/sipp
-```
-
-or clone this repo and
-```
-docker build -t sipp
-docker run -it sipp
-```
-
 ## Usage
+Defaults (see Dockerfile):
+- EXPOSE port 5060 proto tcp
+- WORKDIR /sipp
+- ENTRYPOINT "sipp"
 
-You can pass your SIPp arguments to the run command, example:
+Pass SIPp arguments to the run command:
 ```
 docker run \
     -it \
     pkuca/sipp \
     -sn uas
 ```
+
+Volume mounts can be used to:
+- mount custom `scenarios` directories (target: `/sipp`)
+- mount custom `pcap` directories (target: `/sipp/pcap`)
+- extract logs
+- etc
 
 Use a custom `scenarios` directory by mounting it to `/sipp` in the container:
 ```
@@ -40,11 +35,6 @@ docker run \
     DEST_IP
 ```
 
-Volume mounts can be used to:
-- mount custom `scenarios` directories (target: `/sipp`)
-- mount custom `pcap` directories (target: `/sipp/pcap`)
-- extract logs
-- etc
 
 Start a container with an ephemeral external port allocated to the default SIPp port 5060:
 ```
@@ -58,9 +48,9 @@ docker ps
 5e8fecdede6c        pkuca/sipp          "sipp -sn uas"      14 seconds ago      Up 13 seconds       0.0.0.0:32771->5060/tcp   festive_moser
 ```
 
-Note: If you want to use udp specify your port as `-p 5060/udp`
+To use UDP, specify the port like so: `-p 5060/udp`.
 
-You can also map port 5060 externally to 5060 on your container using the same argument by declaring both ports:
+Map host port 5060 to container port 5060 using following syntax:
 ```
 docker run \
     -d \
@@ -69,9 +59,9 @@ docker run \
     -sn uas
 ```
 
-To run SIPp in detached mode you can start SIPp using the `-d` argument.
+Run SIPp in detached mode using the `-d` argument.
 
-SIPp stdout is available by running `docker logs`.
+SIPp stdout will be available by running `docker logs`:
 ```
 docker run \
     --name sipp-uas \
