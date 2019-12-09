@@ -5,4 +5,6 @@ RUN apk add --no-cache sipp
 
 WORKDIR /sipp
 
+EXPOSE 5060
+
 ENTRYPOINT ["sipp"]
