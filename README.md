@@ -1,14 +1,19 @@
 # pkuca/sipp
-- Docker container for running [SIPp](http://sipp.sourceforge.net/index.html)
-- Installs build-time latest version available in base image `alpine:3`
+
 - [Github](https://github.com/pkuca/docker-sipp)
-- [Docker Hub](https://hub.docker.com/r/pkuca/sipp/)
+- [Docker Hub](https://hub.docker.com/r/pkuca/sipp)
+
+Run [SIPp](http://sipp.sourceforge.net/index.html) in a docker container.
+
+The SIPp version used is whatever the latest version is in base image `alpine:3` at build-time.
 
 ## Usage
-Defaults (see Dockerfile):
-- EXPOSE port 5060 proto tcp
-- WORKDIR /sipp
-- ENTRYPOINT "sipp"
+Defaults from [Dockerfile](Dockerfile):
+```
+WORKDIR /sipp
+EXPOSE 5060
+ENTRYPOINT ["sipp"]
+```
 
 Pass SIPp arguments to the run command:
 ```
@@ -22,7 +27,7 @@ Volume mounts can be used to:
 - mount custom `scenarios` directories (target: `/sipp`)
 - mount custom `pcap` directories (target: `/sipp/pcap`)
 - extract logs
-- etc
+- etc.
 
 Use a custom `scenarios` directory by mounting it to `/sipp` in the container:
 ```
@@ -72,3 +77,6 @@ docker run \
 
 docker logs -f sipp-uas
 ```
+
+## Tags
+- `latest` Base image `alpine:3`
